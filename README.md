@@ -2,7 +2,7 @@
 ```
 Automated Job Application using Smart Browser Extension
 Author(s): Kritika Mandale
-Affiliation: [Your College Name]
+Affiliation: St. Vincent Pallotti College of Engineering and Technology, Nagpur
 Date: April 2026
 ```
 
