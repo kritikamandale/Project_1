@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arlo — Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- ─── Sidebar ────────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">S</div>
+      <div class="app-name">Smart<span>Apply</span></div>
+    </div>
+
+    <div class="nav-group-label">Overview</div>
+    <button class="nav-item active" data-view="overview">
+      <span class="nav-icon">📊</span> Dashboard
+    </button>
+    <button class="nav-item" data-view="applications">
+      <span class="nav-icon">📋</span> Applications
+    </button>
+
+    <div class="nav-group-label">Account</div>
+    <button class="nav-item" data-view="profile">
+      <span class="nav-icon">✎</span> Edit Profile
+    </button>
+    <button class="nav-item" data-view="upgrade">
+      <span class="nav-icon">⚡</span> Upgrade Plan
+    </button>
+
+    <!-- User card + logout at bottom -->
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar" id="sidebarAvatar">?</div>
+        <div class="user-info">
+          <div class="user-name"  id="sidebarName">Loading…</div>
+          <div class="user-plan"  id="sidebarPlan">Free Plan</div>
+        </div>
+        <button class="btn-logout" id="btnLogout" title="Log out" aria-label="Log out">⏻</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ─── Main ────────────────────────────────────────────────── -->
+  <div class="main-content">
+
+    <!-- Offline banner -->
+    <div class="offline-banner" id="offlineBanner">
+      ⚡ Working offline — sync pending when connection is restored
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         VIEW: OVERVIEW
+    ══════════════════════════════════════════════════════════ -->
+    <div id="viewOverview" class="view">
+      <div class="topbar">
+        <div class="topbar-title">Dashboard</div>
+        <div class="topbar-actions">
+          <button class="btn btn-secondary" id="btnExportCSV">⬇ Export CSV</button>
+        </div>
+      </div>
+
+      <div class="content-area">
+
+        <!-- Stats row -->
+        <div class="stats-grid">
+          <div class="stat-card" style="--stat-color:#22c55e;">
+            <span class="stat-icon">📨</span>
+            <div class="stat-value" id="statTotal">0</div>
+            <div class="stat-label">Total Applied</div>
+          </div>
+          <div class="stat-card" style="--stat-color:#38bdf8;">
+            <span class="stat-icon">📅</span>
+            <div class="stat-value" id="statWeek">0</div>
+            <div class="stat-label">This Week</div>
+          </div>
+          <div class="stat-card" style="--stat-color:#a855f7;">
+            <span class="stat-icon">📬</span>
+            <div class="stat-value" id="statResponseRate">0%</div>
+            <div class="stat-label">Response Rate</div>
+          </div>
+          <div class="stat-card" style="--stat-color:#f59e0b;">
+            <span class="stat-icon">✦</span>
+            <div class="stat-value" id="statAICredits">—</div>
+            <div class="stat-label">AI Credits Left</div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="card-title" style="margin-bottom:14px;">Applications per Week</div>
+            <canvas id="chartWeekly" aria-label="Applications per week bar chart" role="img"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="card-title" style="margin-bottom:14px;">Status Breakdown</div>
+            <canvas id="chartStatus" aria-label="Application status donut chart" role="img"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="card-title" style="margin-bottom:14px;">Top Portals</div>
+            <canvas id="chartPortals" aria-label="Top portals horizontal bar chart" role="img"></canvas>
+          </div>
+        </div>
+
+        <!-- Recent applications (last 10) -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Recent Applications</span>
+            <button class="btn btn-secondary" data-view="applications">View All →</button>
+          </div>
+          <div id="recentTableWrap"></div>
+        </div>
+
+      </div>
+    </div><!-- /viewOverview -->
+
+    <!-- ══════════════════════════════════════════════════════════
+         VIEW: APPLICATIONS
+    ══════════════════════════════════════════════════════════ -->
+    <div id="viewApplications" class="view" style="display:none;">
+      <div class="topbar">
+        <div class="topbar-title">Applications</div>
+        <div class="topbar-actions">
+          <button class="btn btn-secondary" id="btnExportCSV2">⬇ Export CSV</button>
+        </div>
+      </div>
+
+      <div class="content-area">
+
+        <!-- Filters -->
+        <div class="filters-bar">
+          <select class="filter-select" id="filterStatus" aria-label="Filter by status">
+            <option value="all">All Statuses</option>
+            <option value="Applied">Applied</option>
+            <option value="Interview">Interview</option>
+            <option value="Offer">Offer</option>
+            <option value="Rejected">Rejected</option>
+            <option value="No Response">No Response</option>
+          </select>
+          <select class="filter-select" id="filterPortal" aria-label="Filter by portal">
+            <option value="all">All Portals</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="naukri">Naukri</option>
+            <option value="internshala">Internshala</option>
+            <option value="wellfound">Wellfound</option>
+            <option value="unstop">Unstop</option>
+          </select>
+          <input type="date" class="filter-input" id="filterDateFrom" aria-label="From date" title="From date" />
+          <input type="date" class="filter-input" id="filterDateTo"   aria-label="To date"   title="To date" />
+          <button class="btn btn-secondary" id="btnClearFilters">✕ Clear</button>
+        </div>
+
+        <!-- Table -->
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div class="table-wrap">
+            <table id="appsTable" aria-label="Job applications">
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Role</th>
+                  <th>Portal</th>
+                  <th>Date Applied</th>
+                  <th>Status</th>
+                  <th class="col-score">Score</th>
+                  <th class="col-actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="appsTableBody"></tbody>
+            </table>
+          </div>
+          <div class="pagination" id="paginationBar" style="padding:12px 18px;">
+            <span id="paginationInfo"></span>
+            <div class="pagination-btns" id="paginationBtns"></div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /viewApplications -->
+
+    <!-- ══════════════════════════════════════════════════════════
+         VIEW: PROFILE EDITOR
+    ══════════════════════════════════════════════════════════ -->
+    <div id="viewProfile" class="view" style="display:none;">
+      <div class="topbar">
+        <div class="topbar-title">Edit Profile</div>
+        <div class="topbar-actions">
+          <button class="btn btn-primary" id="btnSaveProfile">Save Changes</button>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div id="profileSaveMsg" style="display:none;margin-bottom:16px;"></div>
+
+        <!-- Personal -->
+        <div class="profile-section">
+          <div class="profile-section-title">👤 Personal Information</div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="pe_firstName">First Name</label>
+              <input type="text" id="pe_firstName" placeholder="John" maxlength="50" />
+            </div>
+            <div class="form-group">
+              <label for="pe_lastName">Last Name</label>
+              <input type="text" id="pe_lastName" placeholder="Doe" maxlength="50" />
+            </div>
+            <div class="form-group">
+              <label for="pe_email">Email</label>
+              <input type="email" id="pe_email" placeholder="john@example.com" />
+              <span class="input-error" id="err_email"></span>
+            </div>
+            <div class="form-group">
+              <label for="pe_phone">Phone</label>
+              <input type="tel" id="pe_phone" placeholder="+91 9876543210" />
+              <span class="input-error" id="err_phone"></span>
+            </div>
+            <div class="form-group">
+              <label for="pe_location">Location</label>
+              <input type="text" id="pe_location" placeholder="Bangalore, India" />
+            </div>
+            <div class="form-group">
+              <label for="pe_headline">Headline</label>
+              <input type="text" id="pe_headline" placeholder="Full Stack Developer" maxlength="120" />
+            </div>
+            <div class="form-group full">
+              <label for="pe_summary">Summary</label>
+              <textarea id="pe_summary" rows="3" placeholder="Brief professional summary…" maxlength="3000"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="pe_linkedin">LinkedIn URL</label>
+              <input type="url" id="pe_linkedin" placeholder="https://linkedin.com/in/yourname" />
+            </div>
+            <div class="form-group">
+              <label for="pe_portfolio">Portfolio / GitHub</label>
+              <input type="url" id="pe_portfolio" placeholder="https://github.com/yourname" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Preferences -->
+        <div class="profile-section">
+          <div class="profile-section-title">⚙️ Job Preferences</div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="pe_totalExp">Total Experience</label>
+              <select id="pe_totalExp">
+                <option value="">Select</option>
+                <option value="0-1">0–1 years (Fresher)</option>
+                <option value="1-2">1–2 years</option>
+                <option value="2-4">2–4 years</option>
+                <option value="4-6">4–6 years</option>
+                <option value="6-10">6–10 years</option>
+                <option value="10+">10+ years</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="pe_noticePeriod">Notice Period</label>
+              <select id="pe_noticePeriod">
+                <option value="">Select</option>
+                <option value="Immediate">Immediate</option>
+                <option value="15 days">15 days</option>
+                <option value="1 month">1 month</option>
+                <option value="2 months">2 months</option>
+                <option value="3 months">3 months</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="pe_currentCTC">Current CTC</label>
+              <input type="text" id="pe_currentCTC" placeholder="e.g. 8 LPA" maxlength="30" />
+            </div>
+            <div class="form-group">
+              <label for="pe_expectedCTC">Expected CTC</label>
+              <input type="text" id="pe_expectedCTC" placeholder="e.g. 12 LPA" maxlength="30" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Resume re-upload -->
+        <div class="profile-section">
+          <div class="profile-section-title">📄 Resume</div>
+          <div style="display:flex;align-items:center;gap:14px;">
+            <div id="currentResumeInfo" style="font-size:13px;color:var(--text-muted);">No resume uploaded</div>
+            <label class="btn btn-secondary" style="cursor:pointer;">
+              ⬆ Re-upload PDF
+              <input type="file" id="resumeReupload" accept=".pdf" style="display:none;" />
+            </label>
+          </div>
+          <div id="resumeUploadStatus" style="font-size:12px;margin-top:8px;"></div>
+        </div>
+
+        <!-- Danger zone -->
+        <div class="danger-zone">
+          <h3>⚠ Danger Zone</h3>
+
+          <div class="danger-row">
+            <div class="danger-row-info">
+              <h4>Export My Data</h4>
+              <p>Download all your profile data and application history as JSON (GDPR).</p>
+            </div>
+            <button class="btn btn-secondary" id="btnExportData">⬇ Export JSON</button>
+          </div>
+
+          <div class="danger-row">
+            <div class="danger-row-info">
+              <h4>Delete All My Data</h4>
+              <p>Permanently wipes your encrypted profile and all application logs from this device and our servers.</p>
+            </div>
+            <button class="btn btn-danger" id="btnDeleteAllData">🗑 Delete Everything</button>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /viewProfile -->
+
+    <!-- ══════════════════════════════════════════════════════════
+         VIEW: UPGRADE
+    ══════════════════════════════════════════════════════════ -->
+    <div id="viewUpgrade" class="view" style="display:none;">
+      <div class="topbar">
+        <div class="topbar-title">Upgrade Plan</div>
+      </div>
+      <div class="content-area" style="padding-bottom:60px;">
+        
+        <!-- Referral Program -->
+        <div class="card" style="margin-bottom: 32px; background: linear-gradient(145deg, #1e293b, #0f172a); border-color: #3b82f6;">
+          <h3 style="margin-top:0; display:flex; align-items:center; gap:8px;">🎁 Get 1 Month Pro for FREE!</h3>
+          <p style="color:var(--text-muted); margin-bottom:16px;">Refer 3 friends to Arlo. When they sign up using your link, you get Pro for free!</p>
+          <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px;">
+            <input type="text" id="refLinkInput" readonly style="flex:1; padding:10px; background:#0f172a; border:1px solid #334155; border-radius:6px; color:#cbd5e1;" value="Loading...">
+            <button class="btn btn-secondary" id="btnCopyRef">Copy Link</button>
+          </div>
+          <div style="background:#0f172a; border-radius:8px; padding:12px; display:inline-block;">
+            <span id="refProgressText" style="font-weight:600; color:#38bdf8;">You've referred 0/3 users</span>
+            <span id="refRemainingText" style="color:#94a3b8; font-size:13px; margin-left:8px;">— 3 more for free Pro!</span>
+          </div>
+        </div>
+
+        <!-- Pricing Toggle -->
+        <div style="text-align:center; margin-bottom: 32px;">
+          <div style="display:inline-flex; background:#0f172a; padding:4px; border-radius:8px; border:1px solid #334155;">
+            <button id="btnToggleMonthly" class="btn active" style="background:#1e293b; color:white; border:none; box-shadow:0 2px 8px rgba(0,0,0,0.2);">Monthly</button>
+            <button id="btnToggleYearly" class="btn" style="background:transparent; border:none; color:#94a3b8;">Yearly <span style="background:#22c55e; color:white; font-size:10px; padding:2px 6px; border-radius:10px; margin-left:4px;">Save 37%</span></button>
+          </div>
+        </div>
+
+        <!-- Pricing Cards -->
+        <div class="pricing-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">
+          
+          <!-- Free -->
+          <div class="card pricing-card">
+            <h3 style="margin-top:0; font-size:20px; color:#94a3b8;">Free</h3>
+            <div style="font-size:36px; font-weight:700; margin:16px 0;">₹0<span style="font-size:14px; color:#64748b; font-weight:400;">/mo</span></div>
+            <ul style="list-style:none; padding:0; margin:0 0 24px 0; color:#cbd5e1; font-size:14px; line-height:2;">
+              <li>✓ 10 auto-fills per month</li>
+              <li>✓ 5 AI cover letters per month</li>
+              <li>✓ 3 portals (LinkedIn, Naukri, Internshala)</li>
+              <li>✓ Basic dashboard</li>
+            </ul>
+            <button class="btn btn-secondary" style="width:100%; cursor:default;" disabled>Current Plan</button>
+          </div>
+
+          <!-- Pro -->
+          <div class="card pricing-card" style="border-color:#38bdf8; position:relative; transform:scale(1.05); z-index:2; box-shadow:0 20px 40px rgba(0,0,0,0.4);">
+            <div style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:#38bdf8; color:#0f172a; font-size:12px; font-weight:700; padding:4px 12px; border-radius:12px;">MOST POPULAR</div>
+            <h3 style="margin-top:0; font-size:20px; color:#38bdf8;">Pro</h3>
+            <div style="font-size:36px; font-weight:700; margin:16px 0;"><span id="pricePro">₹199</span><span style="font-size:14px; color:#64748b; font-weight:400;">/mo</span></div>
+            <ul style="list-style:none; padding:0; margin:0 0 24px 0; color:#cbd5e1; font-size:14px; line-height:2;">
+              <li>✓ <strong>Unlimited</strong> auto-fills</li>
+              <li>✓ <strong>50</strong> AI cover letters/month</li>
+              <li>✓ <strong>All portals</strong> (+ Wellfound, Unstop)</li>
+              <li>✓ Full dashboard + export CSV</li>
+              <li>✓ AI match scorer</li>
+              <li>✓ Priority support</li>
+            </ul>
+            <button class="btn btn-primary" id="btnBuyPro" style="width:100%; background:#38bdf8; color:#0f172a;">Upgrade to Pro</button>
+          </div>
+
+          <!-- Premium -->
+          <div class="card pricing-card" style="border-color:#a855f7;">
+            <h3 style="margin-top:0; font-size:20px; color:#a855f7;">Premium</h3>
+            <div style="font-size:36px; font-weight:700; margin:16px 0;"><span id="pricePremium">₹499</span><span style="font-size:14px; color:#64748b; font-weight:400;">/mo</span></div>
+            <ul style="list-style:none; padding:0; margin:0 0 24px 0; color:#cbd5e1; font-size:14px; line-height:2;">
+              <li>✓ Everything in Pro</li>
+              <li>✓ <strong>Unlimited</strong> AI features</li>
+              <li>✓ AI screening Q&A answerer</li>
+              <li>✓ Resume tips from AI</li>
+              <li>✓ Application analytics</li>
+              <li>✓ Email alerts for callbacks</li>
+            </ul>
+            <button class="btn btn-primary" id="btnBuyPremium" style="width:100%; background:#a855f7; color:white;">Get Premium</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-content -->
+</div><!-- /app-layout -->
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<!-- Confirm dialog (hidden by default) -->
+<div class="dialog-overlay" id="confirmDialog" style="display:none;" role="dialog" aria-modal="true">
+  <div class="dialog-box">
+    <h3 id="confirmTitle">Are you sure?</h3>
+    <p  id="confirmBody">This action cannot be undone.</p>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary" id="confirmCancel">Cancel</button>
+      <button class="btn btn-danger"    id="confirmOK">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js CDN (loaded from extension page — self-hosted in production via assets/) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"
+  integrity="sha256-6jASf8gFkDsMNjG2HwM0qBN1sL5D5Np7JLOoR1GRVY="
+  crossorigin="anonymous"></script>
+<script type="module" src="dashboard.js"></script>
+</body>
+</html>
+

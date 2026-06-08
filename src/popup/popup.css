@@ -1,0 +1,295 @@
+/* Arlo Popup Styles — 340px wide, light glassmorphism theme */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary: #185FA5;
+  --bg: #E6F1FB;
+  --success: #1D9E75;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border: rgba(0, 0, 0, 0.1);
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --radius: 12px;
+  --transition: 0.2s ease;
+}
+
+body {
+  width: 340px;
+  background: var(--bg);
+  color: var(--text-main);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  padding: 12px;
+}
+
+/* Glass Card Helper */
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* 1. Navbar */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-icon {
+  width: 24px;
+  height: 24px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.logo-text {
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--primary);
+}
+
+.plan-badge {
+  background: rgba(24, 95, 165, 0.1);
+  color: var(--primary);
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 500;
+  border: 0.5px solid rgba(24, 95, 165, 0.2);
+}
+
+.btn-settings {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+/* 2. Detection Banner */
+.detection-banner {
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+
+.dot.active {
+  background: var(--success);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(29, 158, 117, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(29, 158, 117, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(29, 158, 117, 0); }
+}
+
+.detection-text {
+  flex: 1;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.detection-text strong {
+  font-weight: 500;
+  color: var(--primary);
+}
+
+/* 3. Match Score */
+.score-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.score-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.score-title {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.score-value {
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--success);
+  line-height: 1.1;
+  margin-top: 4px;
+}
+
+.score-icon {
+  font-size: 24px;
+  color: var(--success);
+  opacity: 0.8;
+}
+
+/* 4. Skill Tags */
+.skill-tags {
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.skill-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.skill-chip {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  border: 0.5px solid var(--border);
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
+}
+
+.skill-chip.matched {
+  background: rgba(29, 158, 117, 0.1);
+  color: var(--success);
+  border-color: rgba(29, 158, 117, 0.2);
+}
+
+/* 5. Auto-fill Button */
+.btn-autofill {
+  width: 100%;
+  padding: 16px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  transition: opacity 0.2s;
+}
+
+.btn-autofill:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.btn-autofill:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+/* Typing animation */
+.typing-anim::after {
+  content: '';
+  animation: typing 1.5s infinite;
+}
+
+@keyframes typing {
+  0% { content: ''; }
+  33% { content: '.'; }
+  66% { content: '..'; }
+  100% { content: '...'; }
+}
+
+/* 6. Mini Buttons */
+.action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.btn-mini {
+  padding: 10px;
+  border: 0.5px solid var(--border);
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  font-size: 12px;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: inherit;
+}
+
+.btn-mini:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+/* 7. Footer Stats */
+.footer-stats {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.05);
+}
+
+.stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.stat-val {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--primary);
+}
+
+.stat-lbl {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+

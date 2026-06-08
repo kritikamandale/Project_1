@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arlo — Setup Your Profile</title>
+  <link rel="stylesheet" href="onboarding.css" />
+</head>
+<body>
+
+<div class="wizard-container">
+
+  <!-- Header -->
+  <div class="wizard-header">
+    <div class="wizard-logo">S</div>
+    <div class="wizard-title">Smart<span>Apply</span></div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-container">
+    <div class="progress-steps" id="progressSteps">
+      <div class="step-dot active" data-step="1">
+        <div class="step-circle"><span>1</span></div>
+        <div class="step-label">Personal</div>
+      </div>
+      <div class="step-dot" data-step="2">
+        <div class="step-circle"><span>2</span></div>
+        <div class="step-label">Education</div>
+      </div>
+      <div class="step-dot" data-step="3">
+        <div class="step-circle"><span>3</span></div>
+        <div class="step-label">Experience</div>
+      </div>
+      <div class="step-dot" data-step="4">
+        <div class="step-circle"><span>4</span></div>
+        <div class="step-label">Skills</div>
+      </div>
+      <div class="step-dot" data-step="5">
+        <div class="step-circle"><span>5</span></div>
+        <div class="step-label">Resume</div>
+      </div>
+      <div class="progress-line" id="progressLine"></div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBarFill" style="width: 0%"></div>
+    </div>
+    <div class="progress-text">Profile <span id="progressPercent">0%</span> complete</div>
+  </div>
+
+  <!-- Steps Wrapper -->
+  <div class="steps-wrapper">
+
+    <!-- ── Step 1: Personal Info ────────────────────────────── -->
+    <div class="step-panel active" id="step1">
+      <div class="card">
+        <div class="card-header">
+          <h2>Personal Information</h2>
+          <p>Let's start with your basic details. This fills name, email, and contact fields.</p>
+        </div>
+
+        <!-- Smart Import -->
+        <div class="smart-import-banner">
+          <div class="icon">⚡</div>
+          <div class="text">
+            <h4>Smart Import from LinkedIn</h4>
+            <p>Paste your LinkedIn profile URL to auto-fill your information</p>
+            <div class="smart-import-input-row">
+              <input type="url" id="linkedinUrl" placeholder="https://linkedin.com/in/yourname" />
+              <button class="btn-import" id="btnSmartImport">
+                <span id="importBtnText">Import</span>
+                <div class="spinner" id="importSpinner"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <form id="formStep1" novalidate>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="firstName">First Name <span class="required">*</span></label>
+              <input type="text" id="firstName" name="firstName" placeholder="John" autocomplete="given-name" />
+              <span class="field-error" id="errorFirstName">First name is required</span>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name <span class="required">*</span></label>
+              <input type="text" id="lastName" name="lastName" placeholder="Doe" autocomplete="family-name" />
+              <span class="field-error" id="errorLastName">Last name is required</span>
+            </div>
+            <div class="form-group full-width">
+              <label for="email">Email Address <span class="required">*</span></label>
+              <input type="email" id="email" name="email" placeholder="john@example.com" autocomplete="email" />
+              <span class="field-error" id="errorEmail">Please enter a valid email</span>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number <span class="required">*</span></label>
+              <input type="tel" id="phone" name="phone" placeholder="+91 9876543210" autocomplete="tel" />
+              <span class="field-error" id="errorPhone">Please enter a valid phone number</span>
+            </div>
+            <div class="form-group">
+              <label for="location">Location</label>
+              <input type="text" id="location" name="location" placeholder="Bangalore, India" autocomplete="address-level2" />
+            </div>
+            <div class="form-group full-width">
+              <label for="headline">Professional Headline</label>
+              <input type="text" id="headline" name="headline" placeholder="Full Stack Developer | React | Node.js" />
+              <span class="field-hint">Shown on your LinkedIn headline, used for cover letters</span>
+            </div>
+            <div class="form-group">
+              <label for="linkedinProfile">LinkedIn URL</label>
+              <input type="url" id="linkedinProfile" name="linkedinProfile" placeholder="https://linkedin.com/in/yourname" />
+            </div>
+            <div class="form-group">
+              <label for="portfolioUrl">Portfolio / GitHub</label>
+              <input type="url" id="portfolioUrl" name="portfolioUrl" placeholder="https://yoursite.com" />
+            </div>
+            <div class="form-group full-width">
+              <label for="summary">Professional Summary</label>
+              <textarea id="summary" name="summary" rows="3" placeholder="Brief summary of your background and goals..."></textarea>
+            </div>
+          </div>
+        </form>
+
+        <div class="nav-buttons">
+          <button class="btn-ghost" id="btnSkipStep1">Skip for now</button>
+          <button class="btn btn-primary" id="btnNextStep1">
+            Continue <span>→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Step 2: Education ───────────────────────────────── -->
+    <div class="step-panel" id="step2">
+      <div class="card">
+        <div class="card-header">
+          <h2>Education</h2>
+          <p>Add your academic qualifications. You can add multiple degrees.</p>
+        </div>
+
+        <div class="items-list" id="educationList">
+          <!-- Education items rendered here by JS -->
+        </div>
+
+        <button class="btn-add-item" id="btnAddEducation">
+          <span class="plus-icon">+</span>
+          Add Education
+        </button>
+
+        <!-- Add Education Sub-form -->
+        <div class="add-form" id="educationForm">
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="eduInstitution">Institution Name <span class="required">*</span></label>
+              <input type="text" id="eduInstitution" placeholder="IIT Bombay" />
+            </div>
+            <div class="form-group full-width">
+              <label for="eduDegree">Degree <span class="required">*</span></label>
+              <input type="text" id="eduDegree" placeholder="B.Tech Computer Science" />
+            </div>
+            <div class="form-group">
+              <label for="eduStartYear">Start Year</label>
+              <input type="number" id="eduStartYear" placeholder="2020" min="1950" max="2030" />
+            </div>
+            <div class="form-group">
+              <label for="eduEndYear">End Year (or Expected)</label>
+              <input type="number" id="eduEndYear" placeholder="2024" min="1950" max="2030" />
+            </div>
+            <div class="form-group">
+              <label for="eduGrade">Grade / CGPA</label>
+              <input type="text" id="eduGrade" placeholder="8.5 / 10 or 85%" />
+            </div>
+            <div class="form-group">
+              <label for="eduField">Field of Study</label>
+              <input type="text" id="eduField" placeholder="Computer Science" />
+            </div>
+          </div>
+          <div class="add-form-actions" style="display:flex; gap:8px; margin-top:12px;">
+            <button class="btn btn-primary" id="btnSaveEducation" style="flex:1;">Save</button>
+            <button class="btn btn-secondary" id="btnCancelEducation">Cancel</button>
+          </div>
+        </div>
+
+        <div class="nav-buttons">
+          <button class="btn btn-secondary" id="btnBackStep2">← Back</button>
+          <button class="btn btn-primary" id="btnNextStep2">Continue →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Step 3: Experience ──────────────────────────────── -->
+    <div class="step-panel" id="step3">
+      <div class="card">
+        <div class="card-header">
+          <h2>Work Experience</h2>
+          <p>Add your work history. Include internships and part-time roles too.</p>
+        </div>
+
+        <div class="items-list" id="experienceList">
+          <!-- Experience items rendered here by JS -->
+        </div>
+
+        <button class="btn-add-item" id="btnAddExperience">
+          <span class="plus-icon">+</span>
+          Add Experience
+        </button>
+
+        <!-- Add Experience Sub-form -->
+        <div class="add-form" id="experienceForm">
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="expCompany">Company Name <span class="required">*</span></label>
+              <input type="text" id="expCompany" placeholder="Google" />
+            </div>
+            <div class="form-group full-width">
+              <label for="expTitle">Job Title <span class="required">*</span></label>
+              <input type="text" id="expTitle" placeholder="Software Engineer Intern" />
+            </div>
+            <div class="form-group">
+              <label for="expType">Employment Type</label>
+              <select id="expType">
+                <option value="">Select type</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Internship">Internship</option>
+                <option value="Contract">Contract</option>
+                <option value="Freelance">Freelance</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="expLocation">Location</label>
+              <input type="text" id="expLocation" placeholder="Remote / Bangalore" />
+            </div>
+            <div class="form-group">
+              <label for="expStartDate">Start Date</label>
+              <input type="date" id="expStartDate" />
+            </div>
+            <div class="form-group">
+              <label for="expEndDate">End Date</label>
+              <input type="date" id="expEndDate" />
+              <div class="checkbox-group" style="margin-top:6px;">
+                <input type="checkbox" id="expCurrentRole" />
+                <label for="expCurrentRole">Currently working here</label>
+              </div>
+            </div>
+            <div class="form-group full-width">
+              <label for="expDescription">Description</label>
+              <textarea id="expDescription" rows="3" placeholder="Key responsibilities and achievements..."></textarea>
+            </div>
+          </div>
+          <div style="display:flex; gap:8px; margin-top:12px;">
+            <button class="btn btn-primary" id="btnSaveExperience" style="flex:1;">Save</button>
+            <button class="btn btn-secondary" id="btnCancelExperience">Cancel</button>
+          </div>
+        </div>
+
+        <div class="nav-buttons">
+          <button class="btn btn-secondary" id="btnBackStep3">← Back</button>
+          <button class="btn btn-primary" id="btnNextStep3">Continue →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Step 4: Skills ──────────────────────────────────── -->
+    <div class="step-panel" id="step4">
+      <div class="card">
+        <div class="card-header">
+          <h2>Skills</h2>
+          <p>Add your technical and soft skills. These are used to match and fill skill fields in applications.</p>
+        </div>
+
+        <div class="skills-input-row">
+          <input type="text" id="skillInput" placeholder="e.g. React, Python, Leadership…" />
+          <select id="skillLevel" style="max-width:150px;">
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate" selected>Intermediate</option>
+            <option value="Advanced">Advanced</option>
+            <option value="Expert">Expert</option>
+          </select>
+          <button class="btn-add-skill" id="btnAddSkill">Add</button>
+        </div>
+
+        <div class="skills-section-label">Technical Skills</div>
+        <div class="skills-tags" id="technicalSkillsTags">
+          <!-- Tags injected by JS -->
+        </div>
+
+        <div class="skills-section-label">Soft Skills</div>
+        <div class="skills-tags" id="softSkillsTags">
+          <!-- Tags injected by JS -->
+        </div>
+
+        <div class="skills-section-label">Languages</div>
+        <div class="skills-tags" id="languagesTags">
+          <!-- Tags injected by JS -->
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="totalExp">Total Experience</label>
+            <select id="totalExp">
+              <option value="">Select</option>
+              <option value="0-1">0–1 years (Fresher)</option>
+              <option value="1-2">1–2 years</option>
+              <option value="2-4">2–4 years</option>
+              <option value="4-6">4–6 years</option>
+              <option value="6-10">6–10 years</option>
+              <option value="10+">10+ years</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="noticePeriod">Notice Period</label>
+            <select id="noticePeriod">
+              <option value="">Select</option>
+              <option value="Immediate">Immediate</option>
+              <option value="15 days">15 days</option>
+              <option value="1 month">1 month</option>
+              <option value="2 months">2 months</option>
+              <option value="3 months">3 months</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="currentCTC">Current CTC</label>
+            <input type="text" id="currentCTC" placeholder="e.g. 8 LPA" />
+          </div>
+          <div class="form-group">
+            <label for="expectedCTC">Expected CTC</label>
+            <input type="text" id="expectedCTC" placeholder="e.g. 12 LPA" />
+          </div>
+        </div>
+
+        <div class="nav-buttons">
+          <button class="btn btn-secondary" id="btnBackStep4">← Back</button>
+          <button class="btn btn-primary" id="btnNextStep4">Continue →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Step 5: Resume Upload ───────────────────────────── -->
+    <div class="step-panel" id="step5">
+      <div class="card">
+        <div class="card-header">
+          <h2>Upload Your Resume</h2>
+          <p>Upload a PDF resume. We'll parse key details to enhance auto-fill accuracy.</p>
+        </div>
+
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="resumeFile" accept=".pdf" aria-label="Upload resume PDF" />
+          <span class="upload-icon">📄</span>
+          <div class="upload-title">Drop your resume here</div>
+          <div class="upload-hint">
+            Supports <strong>PDF</strong> only · Max 5MB
+          </div>
+        </div>
+
+        <div class="resume-file-info" id="resumeFileInfo">
+          <div class="resume-file-icon">📄</div>
+          <div class="resume-file-details">
+            <div class="resume-file-name" id="resumeFileName"></div>
+            <div class="resume-file-size" id="resumeFileSize"></div>
+            <div class="resume-parse-status" id="resumeParseStatus"></div>
+          </div>
+          <button class="btn-remove-resume" id="btnRemoveResume">Remove</button>
+        </div>
+
+        <div class="parse-preview" id="parsePreview">
+          <h4>📋 Parsed Text Preview</h4>
+          <p id="parsedTextPreview"></p>
+        </div>
+
+        <div class="nav-buttons">
+          <button class="btn btn-secondary" id="btnBackStep5">← Back</button>
+          <button class="btn btn-primary" id="btnFinish">
+            <span id="finishBtnText">Complete Setup</span>
+            <div class="spinner" id="finishSpinner"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Step 6: Completion ──────────────────────────────── -->
+    <div class="step-panel" id="step6">
+      <div class="card completion-step">
+        <div class="completion-icon">🎉</div>
+        <h2>You're All Set!</h2>
+        <p>Your profile is saved and encrypted. Arlo is ready to fill job applications for you.</p>
+
+        <div class="completion-stats">
+          <div class="stat-item">
+            <div class="stat-value" id="completionFieldCount">0</div>
+            <div class="stat-label">Fields Saved</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="completionSkillCount">0</div>
+            <div class="stat-label">Skills Added</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">5</div>
+            <div class="stat-label">Job Portals</div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="btnGoToExtension" style="max-width:280px; margin:0 auto;">
+          Open Arlo
+        </button>
+        <div style="margin-top:12px;">
+          <button class="btn-ghost" id="btnEditProfile">Edit Profile</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /steps-wrapper -->
+</div><!-- /wizard-container -->
+
+<!-- Toast -->
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+<!-- pdf.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
+  integrity="sha512-q+4lWQSHaXCNJhMa7YWJ5bC3Rq8y1FhJLsTAqFmfOh/YJNRqXpkIEZB5NTXxCXAuFXVEaESTbpX0kqDqm4Yw=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="module" src="onboarding.js"></script>
+</body>
+</html>
+

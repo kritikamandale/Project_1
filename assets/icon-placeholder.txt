@@ -1,0 +1,11 @@
+Place your icon files here:
+- icon16.png  (16x16)
+- icon48.png  (48x48)
+- icon128.png (128x128)
+- logo.svg
+
+You can generate icons using any icon tool or use a green "S" on dark background (#0f172a) with #22c55e accent.
+
+Free tools:
+- https://www.favicon.io/favicon-generator/
+- https://icon.kitchen

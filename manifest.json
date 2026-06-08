@@ -1,0 +1,79 @@
+{
+  "manifest_version": 3,
+  "name": "Arlo",
+  "version": "1.0.0",
+  "description": "AI-powered Chrome extension to autofill job applications, generate cover letters, and track jobs",
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16": "assets/icon16.png",
+      "48": "assets/icon48.png",
+      "128": "assets/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "src/background/service-worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.linkedin.com/*",
+        "*://*.naukri.com/*",
+        "*://*.internshala.com/*",
+        "*://*.wellfound.com/*",
+        "*://*.unstop.com/*"
+      ],
+      "js": [
+        "src/utils/portal-configs.js",
+        "src/content/form-detector.js",
+        "src/content/auto-filler.js",
+        "src/content/jd-extractor.js",
+        "src/content/content-script.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "identity",
+    "alarms"
+  ],
+  "host_permissions": [
+    "*://*.linkedin.com/*",
+    "*://*.naukri.com/*",
+    "*://*.internshala.com/*",
+    "*://*.wellfound.com/*",
+    "*://*.unstop.com/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/onboarding/onboarding.html",
+        "src/dashboard/dashboard.html",
+        "src/profile/profile.html",
+        "assets/*"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none';"
+  },
+  "options_page": "src/onboarding/onboarding.html",
+  "oauth2": {
+    "client_id": "YOUR_GOOGLE_OAUTH_CLIENT_ID.apps.googleusercontent.com",
+    "scopes": [
+      "openid",
+      "email",
+      "profile"
+    ]
+  }
+}

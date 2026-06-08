@@ -1,0 +1,48 @@
+{
+  "name": "Arlo-extension",
+  "version": "1.0.0",
+  "description": "Arlo Chrome Extension - Auto-fill job applications",
+  "scripts": {
+    "build": "echo 'No build step needed for MV3 vanilla JS'",
+    "test": "jest",
+    "test:backend": "jest tests/ai-routes.test.js --testEnvironment=node",
+    "test:extension": "jest tests/encryption.test.js tests/form-detector.test.js",
+    "lint": "eslint src/**/*.js"
+  },
+  "devDependencies": {
+    "@anthropic-ai/sdk": "0.26.0",
+    "eslint": "8.57.0",
+    "express": "4.19.2",
+    "firebase-admin": "12.2.0",
+    "express-rate-limit": "7.3.1",
+    "helmet": "7.1.0",
+    "morgan": "1.10.0",
+    "jest": "29.7.0",
+    "jest-environment-jsdom": "29.7.0",
+    "supertest": "7.0.0"
+  },
+  "jest": {
+    "projects": [
+      {
+        "displayName": "extension",
+        "testEnvironment": "jsdom",
+        "testMatch": [
+          "<rootDir>/tests/encryption.test.js",
+          "<rootDir>/tests/form-detector.test.js"
+        ]
+      },
+      {
+        "displayName": "backend",
+        "testEnvironment": "node",
+        "testMatch": [
+          "<rootDir>/tests/ai-routes.test.js"
+        ],
+        "moduleDirectories": ["node_modules", "<rootDir>/backend"]
+      }
+    ]
+  },
+  "keywords": ["chrome-extension", "job-application", "autofill"],
+  "author": "Arlo",
+  "license": "MIT"
+}
+

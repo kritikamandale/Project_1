@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arlo — Apply to 100 jobs in 10 minutes</title>
+  <meta name="description" content="AI-powered Chrome extension that autofills job applications, generates cover letters, and tracks your job search." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    
+    /* Nav */
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; }
+    .logo { font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .logo span { color: var(--primary); }
+    .btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+    .btn-primary { background: var(--primary); border: none; color: white; }
+    .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+    
+    /* Hero */
+    .hero { text-align: center; padding: 80px 0 40px; }
+    .hero h1 { font-size: 56px; line-height: 1.1; margin-bottom: 24px; background: linear-gradient(to right, #60a5fa, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { font-size: 20px; color: var(--text-muted); max-width: 600px; margin: 0 auto 32px; }
+    .demo-gif { width: 100%; max-width: 800px; height: 450px; background: var(--surface); border-radius: 16px; margin: 64px auto 0; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+    
+    /* Features */
+    .features { padding: 80px 0; }
+    .features h2 { text-align: center; font-size: 36px; margin-bottom: 48px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
+    .feature-card { background: var(--surface); padding: 32px; border-radius: 16px; border: 1px solid var(--border); }
+    .feature-icon { font-size: 40px; margin-bottom: 16px; }
+    .feature-card h3 { margin: 0 0 12px; font-size: 22px; }
+    .feature-card p { color: var(--text-muted); margin: 0; }
+    
+    /* Pricing */
+    .pricing { padding: 80px 0; background: #0b1120; }
+    .pricing h2 { text-align: center; font-size: 36px; margin-bottom: 48px; }
+    .pricing-card { background: var(--surface); padding: 32px; border-radius: 16px; border: 1px solid var(--border); display: flex; flex-direction: column; }
+    .pricing-card.popular { border-color: #38bdf8; position: relative; transform: scale(1.05); }
+    .popular-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #38bdf8; color: #0f172a; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; }
+    .price { font-size: 48px; font-weight: 700; margin: 16px 0; }
+    .price span { font-size: 16px; color: var(--text-muted); font-weight: 400; }
+    .pricing-features { list-style: none; padding: 0; margin: 0 0 32px 0; color: #cbd5e1; flex-grow: 1; }
+    .pricing-features li { margin-bottom: 12px; display: flex; gap: 8px; }
+    
+    /* Testimonials */
+    .testimonials { padding: 80px 0; text-align: center; }
+    .testimonials h2 { font-size: 36px; margin-bottom: 48px; }
+    
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <nav>
+      <div class="logo">S<span>Arlo</span></div>
+      <div>
+        <a href="#features" style="margin-right:24px; color:var(--text-muted);">Features</a>
+        <a href="#pricing" style="margin-right:24px; color:var(--text-muted);">Pricing</a>
+        <a href="https://chrome.google.com/webstore" class="btn btn-primary">Add to Chrome</a>
+      </div>
+    </nav>
+  </div>
+
+  <section class="hero container">
+    <h1>Apply to 100 jobs in 10 minutes</h1>
+    <p>The AI-powered Chrome extension that autofills complex job portals, writes personalized cover letters, and tracks your applications automatically.</p>
+    <a href="https://chrome.google.com/webstore" class="btn btn-primary" style="font-size:18px; padding:16px 32px;">Add to Chrome — It's Free</a>
+    <div class="demo-gif">
+      <!-- Placeholder for demo GIF -->
+      [ Demo GIF showing 1-click Auto Fill across LinkedIn, Naukri, Workday ]
+    </div>
+  </section>
+
+  <section id="features" class="features container">
+    <h2>Supercharge Your Job Search</h2>
+    <div class="grid">
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>1-Click Auto Fill</h3>
+        <p>Works across Workday, LinkedIn, Naukri, Internshala, and Lever. Say goodbye to retyping your resume.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✍️</div>
+        <h3>AI Cover Letters</h3>
+        <p>Claude AI instantly reads the job description and your profile to generate a tailored, ATS-friendly cover letter.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Automated Tracking</h3>
+        <p>Every application is silently logged to your beautiful Kanban board and dashboard. Track statuses without a spreadsheet.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="pricing">
+    <div class="container">
+      <h2>Simple, Transparent Pricing</h2>
+      <div class="grid" style="align-items: center;">
+        
+        <div class="pricing-card">
+          <h3>Free</h3>
+          <div class="price">₹0<span>/mo</span></div>
+          <ul class="pricing-features">
+            <li>✓ 10 auto-fills per month</li>
+            <li>✓ 5 AI cover letters/month</li>
+            <li>✓ 3 Portals (LinkedIn, Naukri, Internshala)</li>
+            <li>✓ Basic Dashboard Tracker</li>
+          </ul>
+          <a href="https://chrome.google.com/webstore" class="btn" style="text-align:center;">Install Extension</a>
+        </div>
+
+        <div class="pricing-card popular">
+          <div class="popular-badge">MOST POPULAR</div>
+          <h3 style="color:#38bdf8;">Pro</h3>
+          <div class="price">₹199<span>/mo</span></div>
+          <ul class="pricing-features">
+            <li>✓ <strong>Unlimited</strong> auto-fills</li>
+            <li>✓ <strong>50</strong> AI cover letters/month</li>
+            <li>✓ <strong>All Portals</strong> supported</li>
+            <li>✓ Advanced Dashboard + CSV Export</li>
+            <li>✓ AI Match Scorer</li>
+          </ul>
+          <!-- Mocking checkout logic -->
+          <button class="btn btn-primary" style="background:#38bdf8; color:#0f172a;" onclick="alert('In production, this opens Razorpay')">Get Pro</button>
+        </div>
+
+        <div class="pricing-card">
+          <h3 style="color:#a855f7;">Premium</h3>
+          <div class="price">₹499<span>/mo</span></div>
+          <ul class="pricing-features">
+            <li>✓ Everything in Pro</li>
+            <li>✓ <strong>Unlimited</strong> AI features</li>
+            <li>✓ AI Screening Q&A Answerer</li>
+            <li>✓ Resume Tips from AI</li>
+            <li>✓ Interview Callback Alerts</li>
+          </ul>
+          <button class="btn btn-primary" style="background:#a855f7;" onclick="alert('In production, this opens Razorpay')">Get Premium</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials container">
+    <h2>Loved by 10,000+ Job Seekers</h2>
+    <div class="grid">
+      <div class="feature-card" style="text-align:left;">
+        <p style="margin-bottom:16px;">"Arlo saved me literally hours. I applied to 50 Workday jobs in one sitting. Got 3 interviews already!"</p>
+        <strong style="color:var(--text);">— Rahul K., SDE II</strong>
+      </div>
+      <div class="feature-card" style="text-align:left;">
+        <p style="margin-bottom:16px;">"The AI cover letters are insanely good. It picks up exactly what the job description wants from my resume."</p>
+        <strong style="color:var(--text);">— Sneha M., Product Manager</strong>
+      </div>
+      <div class="feature-card" style="text-align:left;">
+        <p style="margin-bottom:16px;">"I was tracking everything on a spreadsheet manually. The dashboard just doing it automatically is magic."</p>
+        <strong style="color:var(--text);">— Aman D., Data Analyst</strong>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>Arlo © 2024. All rights reserved.</p>
+      <div style="margin-top:16px;">
+        <a href="/privacy" style="margin:0 12px;">Privacy Policy</a>
+        <a href="/terms" style="margin:0 12px;">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
+
