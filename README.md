@@ -123,4 +123,4 @@ Arlo is built with a privacy-first mindset:
 ---
 
 ## 📝 License
-Copyright © 2024 Arlo. All rights reserved.
+Copyright © 2024 Arlo. All rights reserved..
