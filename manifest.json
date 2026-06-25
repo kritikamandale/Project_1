@@ -3,18 +3,9 @@
   "name": "Arlo",
   "version": "1.0.0",
   "description": "AI-powered Chrome extension to autofill job applications, generate cover letters, and track jobs",
-  "icons": {
-    "16": "assets/icon16.png",
-    "48": "assets/icon48.png",
-    "128": "assets/icon128.png"
-  },
   "action": {
     "default_popup": "src/popup/popup.html",
-    "default_icon": {
-      "16": "assets/icon16.png",
-      "48": "assets/icon48.png",
-      "128": "assets/icon128.png"
-    }
+    "default_title": "Arlo - AI Job Assistant"
   },
   "background": {
     "service_worker": "src/background/service-worker.js",
